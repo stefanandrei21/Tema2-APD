@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Tema2 {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -20,6 +21,7 @@ public class Tema2 {
         PrintWriter outOrders = new PrintWriter("orders_out.txt");
         PrintWriter outProducts = new PrintWriter("order_products_out.txt");
 
+        ExecutorService executorService = Executors.newFixedThreadPool(input.numberOfThreads);
 
         Long numberOfBytes = Files.size(Path.of(input.folderName + "/" + "orders.txt"));
         Long numberOfLines = numberOfBytes / 16;
@@ -31,12 +33,13 @@ public class Tema2 {
         String pathToOrders = input.folderName + "/" + "orders.txt";
         String pathToProducts = input.folderName + "/" + "order_products.txt";
         for(int i = 0; i < input.numberOfThreads; i++) {
+
             if (i == input.numberOfThreads - 1) {
                 stop += workSize;
             }
-            FirstLevelWork levelWork = new FirstLevelWork(outOrders, outProducts, i, start, stop, pathToOrders, pathToProducts);
+            FirstLevelWork levelWork = new FirstLevelWork(outOrders, outProducts, i, start, stop, pathToOrders, pathToProducts, executorService);
             start += workSize;
-            workSize += workSize;
+            stop += workSize;
 
             firstLevelWorkList.add(levelWork);
             levelWork.start();
@@ -45,6 +48,7 @@ public class Tema2 {
         for(FirstLevelWork work : firstLevelWorkList) {
             work.join();
         }
+        executorService.shutdown();
 
 
 
