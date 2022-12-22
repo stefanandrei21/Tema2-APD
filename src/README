@@ -1,0 +1,9 @@
+Panait Stefan-Andrei 332CA
+    Iau de la args folderul de input si numarul de threaduri, si le pun in clasa creeata de mine Input care retine folder (String)
+    si numarul de threaduri. Creez fisierele de output in care urmeaza sa afisez. Pentru citire ca sa nu fac secvential iau numarul
+    de bytes pe care il are un fisier, si calculez numarul de linii aproximand ca o linie are 16 bytes. Separ pe chunkuri
+    ce trebuie sa citeasca fiecare thread din fisier, astfel creeand threadurile de nivel 1.
+    In FirstLevelWork incep sa implementez ce trebuie sa faca fiecare thread de nivel 1, iau orderID si nr, folosesc o mapa pentru
+    a retine. Dupa care creez thredurile de nivel 2, folosin executorservice, (SecondLevelWork) citesc fiecare linie cu un BufferedReader
+    separ si apoi verific. Mai departe daca numarul produselor este egal cu contorul meu de produse pe care le-am gasit apelez
+    functia din FirstLevelWork pentru a scrie in fisierul orders_out, apoi scriu si in fisierul order_products_out.
